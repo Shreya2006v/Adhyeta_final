@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -22,3 +23,27 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+=======
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+
+# Django
+db.sqlite3
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+
+# Static files
+staticfiles/
+
+# Migrations cache
+*.log
+>>>>>>> d00e45872f0fcaae41aa5daf5f77966ccc643e18

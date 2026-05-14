@@ -1,0 +1,41 @@
+# ─── Core Django ───────────────────────────────────────────────────────────────
+Django==5.0.6
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
+django-cors-headers==4.3.1
+django-filter==24.2
+django-extensions==3.2.3
+
+# ─── Realtime ──────────────────────────────────────────────────────────────────
+channels==4.1.0
+daphne==4.1.2
+
+# ─── API Docs ──────────────────────────────────────────────────────────────────
+drf-spectacular==0.27.2
+
+# ─── AI / LangChain ────────────────────────────────────────────────────────────
+langchain==0.2.16
+langchain-core==0.2.38
+langchain-groq==0.1.9
+langchain-google-genai==1.0.10
+groq==0.9.0
+google-generativeai==0.7.2
+
+# ─── Embeddings ────────────────────────────────────────────────────────────────
+sentence-transformers==3.0.1
+
+# ─── Graph / Cognitive Map ─────────────────────────────────────────────────────
+networkx==3.3
+
+# ─── File Storage ──────────────────────────────────────────────────────────────
+cloudinary==1.40.0
+django-cloudinary-storage==0.3.0
+
+# ─── Config & Utils ────────────────────────────────────────────────────────────
+python-decouple==3.8
+Pillow==10.4.0
+python-dateutil==2.9.0
+requests==2.32.3
+
+# ─── Database ──────────────────────────────────────────────────────────────────
+psycopg2-binary==2.9.9
