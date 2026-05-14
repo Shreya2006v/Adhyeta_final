@@ -9,6 +9,7 @@ import GlassCard from '../../components/ui/GlassCard';
 import Button from '../../components/ui/Button';
 import api from '../../lib/axios';
 import ReactMarkdown from 'react-markdown';
+import Mermaid from '../../components/ui/Mermaid';
 
 export default function AIMentor() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -18,13 +19,28 @@ export default function AIMentor() {
   const [explanation, setExplanation] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleGenerate = async () => {
-    if (!topic) return;
+  const handleGenerate = async (overrideTopic = null, overrideStyle = null) => {
+    const activeTopic = overrideTopic || topic;
+    const activeStyle = overrideStyle || style;
+    if (!activeTopic) return;
+    
+    setTopic(activeTopic);
+    setStyle(activeStyle);
     setIsGenerating(true);
+
+    let styleInstruction = "";
+    if (activeStyle === 'visual') {
+      styleInstruction = "Create a detailed Learning Map using Mermaid.js syntax (graph TD). Represent the hierarchy of concepts visually. Return ONLY the mermaid code block followed by a brief explanation of the nodes.";
+    } else if (activeStyle === 'analogy') {
+      styleInstruction = "Use a central, relatable real-world analogy to explain the concept. Relate technical parts to everyday objects or situations.";
+    } else if (activeStyle === 'story') {
+      styleInstruction = "Explain the concept using a narrative arc or a short story. Give it a setting and context to make it memorable.";
+    }
+
     try {
       const res = await api.post('/mentor/chat/', {
-        message: `Please explain "${topic}" using a ${style} approach. Keep it clear, engaging, and suitable for the requested style.`,
-        subject: topic
+        message: `Topic: "${activeTopic}"\n\nStyle: ${activeStyle}\n\nInstruction: ${styleInstruction}\n\nPlease keep the response clear, engaging, and highly structured.`,
+        subject: activeTopic
       });
       setExplanation(res.data.data.content);
     } catch (err) {
@@ -116,7 +132,7 @@ export default function AIMentor() {
 
                 <Button 
                   variant="glow" size="lg" icon={<Sparkles size={20} />} 
-                  onClick={handleGenerate} disabled={isGenerating}
+                  onClick={() => handleGenerate()} disabled={isGenerating}
                   style={{ height: '60px', fontSize: '18px', fontWeight: 900 }}
                 >
                   {isGenerating ? 'Synthesizing Knowledge...' : 'Initiate Mastery'}
@@ -135,14 +151,28 @@ export default function AIMentor() {
                           <Lightbulb size={18} /> AI SYNTHESIS RESULTS
                        </div>
                        <div style={{ fontSize: '17px', color: 'var(--text-primary)', fontWeight: 500 }} className="markdown-body">
-                         <ReactMarkdown>{explanation}</ReactMarkdown>
+                         <ReactMarkdown
+                           components={{
+                             code({ node, inline, className, children, ...props }) {
+                               const match = /language-mermaid/.exec(className || '');
+                               return !inline && match ? (
+                                 <Mermaid chart={String(children).replace(/\n$/, '')} />
+                               ) : (
+                                 <code className={className} {...props}>
+                                   {children}
+                                 </code>
+                               );
+                             }
+                           }}
+                         >
+                           {explanation}
+                         </ReactMarkdown>
                        </div>
                        <div style={{ display: 'flex', gap: '14px', marginTop: '32px' }}>
                           <Button variant="ghost" size="sm" icon={<Activity size={16} />} onClick={() => window.location.href = '/test'}>Generate ADHYETA Quiz</Button>
-                          <Button variant="ghost" size="sm" icon={<Cpu size={16} />} onClick={() => {
-                             setStyle('visual');
-                             setTimeout(handleGenerate, 50);
-                          }}>Create Learning Map</Button>
+                          <Button variant="ghost" size="sm" icon={<Cpu size={16} />} onClick={() => handleGenerate(topic, 'visual')}>
+                             Create Learning Map
+                          </Button>
                        </div>
                     </div>
                   </motion.div>
@@ -168,7 +198,7 @@ export default function AIMentor() {
                     <div key={q.label} style={{ 
                         padding: '14px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', 
                         border: '1px solid var(--border-subtle)', cursor: 'pointer', transition: '0.2s' 
-                    }} className="hover-card">
+                    }} className="hover-card" onClick={() => handleGenerate(q.label, style)}>
                        <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>{q.label}</div>
                        <div style={{ fontSize: '11px', color: 'var(--text-dim)', marginTop: '4px', fontWeight: 600 }}>{q.time}</div>
                     </div>
