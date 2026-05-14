@@ -112,9 +112,10 @@ export default function MockTest() {
         </div>
       )}
       
-      {phase === 'test' && questions.length > 0 && (
+      {phase === 'test' && questions && questions.length > 0 && (
         <ActiveTest 
           question={questions[currentQ]}
+          subject={testContext?.subject || "MOCK"}
           currentIndex={currentQ}
           totalQuestions={questions.length}
           answers={answers}

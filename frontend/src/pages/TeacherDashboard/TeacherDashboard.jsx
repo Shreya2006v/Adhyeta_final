@@ -85,7 +85,7 @@ export default function TeacherDashboard() {
           <p style={{ color: 'var(--text-secondary)', fontSize: '17px', marginTop: '4px' }}>CS-AI Domain · Section B · 34 Synchronized Minds</p>
         </div>
         <div style={{ display: 'flex', gap: '14px' }}>
-          <Button variant="ghost" size="md" icon={<Filter size={18} />}>Filter</Button>
+          <Button variant="ghost" size="md" icon={<Filter size={18} />} onClick={() => alert('Filter functionality will be available in future phases.')}>Filter</Button>
           <Button variant="glow" size="md" icon={<Download size={18} />} onClick={handleExport}>Intelligence Export</Button>
         </div>
       </motion.div>

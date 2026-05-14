@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 export default function ActiveTest({ 
   question, 
+  subject,
   currentIndex, 
   totalQuestions, 
   answers, 
@@ -34,7 +35,7 @@ export default function ActiveTest({
         boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
       }}>
         <div style={{ flexShrink: 0 }}>
-          <Badge color="success">{question.subject.toUpperCase()} ASSESSMENT</Badge>
+          <Badge color="success">{subject.toUpperCase()} ASSESSMENT</Badge>
         </div>
         
         <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '20px' }}>

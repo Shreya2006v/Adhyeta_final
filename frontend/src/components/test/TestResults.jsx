@@ -20,7 +20,7 @@ export default function TestResults({ answers = {}, questions = [], onRetry }) {
 
   let correctCount = 0;
   qList.forEach((q, i) => {
-    if (q && answers[i] === q.correct) correctCount++;
+    if (q && answers[i] === q.correct_index) correctCount++;
   });
   
   const pct = Math.round((correctCount / total) * 100);
@@ -50,7 +50,7 @@ export default function TestResults({ answers = {}, questions = [], onRetry }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <h3 style={{ fontSize: '20px', fontWeight: 800 }}>Node Analysis</h3>
         {qList.map((q, i) => {
-          const isCorrect = answers[i] === q.correct;
+          const isCorrect = answers[i] === q.correct_index;
           return (
             <GlassCard key={i} elevated style={{ padding: '20px', borderLeft: `4px solid ${isCorrect ? '#10B981' : '#EF4444'}` }}>
               <div style={{ display: 'flex', gap: '16px' }}>
@@ -60,7 +60,7 @@ export default function TestResults({ answers = {}, questions = [], onRetry }) {
                 <div>
                   <div style={{ fontSize: '15px', fontWeight: 700, marginBottom: '8px' }}>{q.question}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                    Correct: <span style={{ color: '#10B981', fontWeight: 700 }}>{q.options[q.correct]}</span>
+                    Correct: <span style={{ color: '#10B981', fontWeight: 700 }}>{q.options[q.correct_index]}</span>
                   </div>
                 </div>
               </div>

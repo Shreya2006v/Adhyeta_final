@@ -47,11 +47,14 @@ export default function FileUploadZone({ isDragging, setIsDragging, handleFileUp
         
         <input type="file" id="excel-upload" hidden onChange={handleFileUpload} accept=".xlsx, .xls, .csv" />
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-          <label htmlFor="excel-upload">
-            <Button variant={excelData ? 'ghost' : 'glow'} size="md" icon={<Upload size={18} />}>
-              {excelData ? 'Upload Different File' : 'Select Data Source'}
-            </Button>
-          </label>
+          <Button 
+            variant={excelData ? 'ghost' : 'glow'} 
+            size="md" 
+            icon={<Upload size={18} />} 
+            onClick={() => document.getElementById('excel-upload').click()}
+          >
+            {excelData ? 'Upload Different File' : 'Select Data Source'}
+          </Button>
           {excelData && (
             <Button variant="glow" size="md" icon={<CloudLightning size={18} />} onClick={(e) => { e.stopPropagation(); handleIngest(); }}>
               Confirm & Ingest
