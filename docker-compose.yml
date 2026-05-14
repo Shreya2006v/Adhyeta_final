@@ -2,10 +2,10 @@ version: "3.9"
 
 services:
   web:
-    build: .
+    build: ./backend
     command: daphne -b 0.0.0.0 -p 8000 adhyeta.asgi:application
     volumes:
-      - .:/app
+      - ./backend:/app
       - media_data:/app/media
     ports:
       - "8000:8000"
