@@ -1,0 +1,98 @@
+/* ═══════════════════════════════════════════════════════════
+   ADHYETA AI — Theme & Typography (Performance Optimized)
+   ═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Syne:wght@600;800&display=swap');
+
+:root {
+  /* ── Color System ── */
+  --bg-void:        #030712;
+  --bg-deep:        #0A0F1E;
+  --bg-surface:     #111827;
+  --bg-elevated:    #1F2937;
+  
+  --accent-primary:   #6366F1;
+  --accent-secondary: #06B6D4;
+  --accent-tertiary:  #A855F7;
+  --accent-success:   #10B981;
+  --accent-warn:      #F59E0B;
+  --accent-danger:    #EF4444;
+  
+  --text-primary:   #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-dim:       #475569;
+  
+  --border-subtle:  rgba(99,102,241,0.1);
+  --border-active:  rgba(99,102,241,0.3);
+  
+  --glow-primary:   0 4px 12px rgba(99,102,241,0.15);
+  --glow-secondary: 0 4px 12px rgba(6,182,212,0.15);
+  
+  /* ── Typography ── */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* ── Radii ── */
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-normal: 200ms;
+}
+
+/* ── Global Styles ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #6366F1, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Optimized Inputs ── */
+.premium-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.premium-input:focus {
+  border-color: var(--accent-primary);
+}
+
+/* ── Custom Scrollbar (Simplified) ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
