@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Users, AlertTriangle, 
@@ -7,23 +8,63 @@ import {
 } from 'lucide-react';
 import GlassCard from '../../components/ui/GlassCard';
 import Button from '../../components/ui/Button';
-
-const teachers = [
-  { name: 'Dr. Aruna Kumar', score: 88, engagement: 94, uploads: 12, status: 'Active' },
-  { name: 'Prof. Rajesh M.', score: 76, engagement: 82, uploads: 8, status: 'Active' },
-  { name: 'Dr. S. Meena', score: 92, engagement: 88, uploads: 15, status: 'Away' },
-  { name: 'Prof. Vikas P.', score: 64, engagement: 71, uploads: 4, status: 'Meeting' },
-  { name: 'Dr. Ananya S.', score: 81, engagement: 85, uploads: 10, status: 'Active' },
-];
-
-const atRiskStudents = [
-  { name: 'Sameer Shah', score: 42, risk: 85, flag: 'Declining Performance' },
-  { name: 'Karan Mehra', score: 38, risk: 78, flag: 'Low Focus Levels' },
-  { name: 'Neha Gupta', score: 45, risk: 72, flag: 'Critical Attendance' },
-  { name: 'Aditya Rao', score: 41, risk: 65, flag: 'Learning Decline' },
-];
+import api from '../../lib/axios';
 
 export default function HODDashboard() {
+  const [stats, setStats] = useState({
+    total_students: '...',
+    active_faculty: '...',
+    syllabus_coverage: '...',
+    avg_attendance: '...',
+    dept_name: 'Loading Department...'
+  });
+  const [teachersList, setTeachersList] = useState([]);
+  const [riskStudents, setRiskStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchHODData = async () => {
+    setIsLoading(true);
+    try {
+      const [overviewRes, facultyRes, riskRes] = await Promise.all([
+        api.get('/dashboard/hod/overview/'),
+        api.get('/dashboard/hod/faculty/'),
+        api.get('/dashboard/hod/risk/')
+      ]);
+      
+      setStats(overviewRes.data.data);
+      setTeachersList(facultyRes.data.data);
+      setRiskStudents(riskRes.data.data);
+    } catch (err) {
+      console.error('Error fetching HOD data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHODData();
+  }, []);
+
+  const handleSync = () => {
+    fetchHODData();
+  };
+
+  const handleExportAudit = async () => {
+    try {
+      const response = await api.get('/dashboard/hod/export/', { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `ADHYETA_Audit_${stats.dept_name.replace(' ', '_')}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Failed to export audit log.');
+    }
+  };
+
   const s = (i) => ({
     initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0 },
@@ -41,22 +82,24 @@ export default function HODDashboard() {
             </div>
             <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--accent-primary)', letterSpacing: '0.12em' }}>DEPARTMENTAL COMMAND</span>
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 900, letterSpacing: '-0.02em' }}>Computer Science & Engineering</h1>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '36px', fontWeight: 900, letterSpacing: '-0.02em' }}>{stats.dept_name}</h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginTop: '4px' }}>Overview of faculty performance and student risk assessments.</p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
-          <Button variant="ghost" size="md" icon={<Download size={18} />}>Export Audit</Button>
-          <Button variant="glow" size="md" icon={<Zap size={18} />}>Sync</Button>
+          <Button variant="ghost" size="md" icon={<Download size={18} />} onClick={handleExportAudit}>Export Audit</Button>
+          <Button variant="glow" size="md" icon={<Zap size={18} />} onClick={handleSync} disabled={isLoading}>
+            {isLoading ? 'Syncing...' : 'Sync'}
+          </Button>
         </div>
       </motion.header>
 
       {/* Stats Summary Strip */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '24px' }}>
         {[
-          { label: 'Total Students', value: '482', icon: Users, color: 'var(--accent-primary)' },
-          { label: 'Avg Attendance', value: '84.2%', icon: Activity, color: 'var(--accent-success)' },
-          { label: 'Syllabus Coverage', value: '62%', icon: BookOpen, color: 'var(--accent-secondary)' },
-          { label: 'Active Faculty', value: '18/22', icon: LayoutDashboard, color: 'var(--accent-warn)' },
+          { label: 'Total Students', value: stats.total_students, icon: Users, color: 'var(--accent-primary)' },
+          { label: 'Avg Attendance', value: stats.avg_attendance, icon: Activity, color: 'var(--accent-success)' },
+          { label: 'Syllabus Coverage', value: stats.syllabus_coverage, icon: BookOpen, color: 'var(--accent-secondary)' },
+          { label: 'Active Faculty', value: stats.active_faculty, icon: LayoutDashboard, color: 'var(--accent-warn)' },
         ].map((stat, i) => (
           <motion.div key={i} {...s(i + 1)}>
             <GlassCard elevated style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -97,7 +140,7 @@ export default function HODDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {teachers.map((t, i) => (
+                    {teachersList.map((t, i) => (
                       <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)', transition: 'background 0.2s' }} className="hover-row">
                         <td style={{ padding: '18px 12px', fontWeight: 700, fontSize: '15px' }}>{t.name}</td>
                         <td style={{ padding: '18px 12px' }}>
@@ -140,7 +183,7 @@ export default function HODDashboard() {
                 <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-danger)' }}>4 CRITICAL NODES</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '14px' }}>
-                {atRiskStudents.map((st, i) => (
+                {riskStudents.map((st, i) => (
                   <motion.div key={i} whileHover={{ x: 6 }} style={{ 
                     padding: '20px', borderRadius: '18px', background: 'rgba(239,68,68,0.03)',
                     border: '1px solid rgba(239,68,68,0.1)', display: 'flex', alignItems: 'center', gap: '20px',
