@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
+import logo from '../../assets/logo.png';
 
 export default function Hero() {
   return (
@@ -23,7 +24,7 @@ export default function Hero() {
           style={{ marginBottom: '40px' }}
         >
           <img 
-            src="/logo.png" 
+            src={logo} 
             alt="ADHYETA Logo" 
             style={{ 
               width: '280px', 

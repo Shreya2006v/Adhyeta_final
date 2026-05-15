@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 export default function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -22,7 +23,7 @@ export default function Navbar() {
       backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.05)',
     }}>
       <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-        <img src="/logo.png" alt="ADHYETA" style={{ height: isMobile ? '28px' : '36px', objectFit: 'contain' }} />
+        <img src={logo} alt="ADHYETA" style={{ height: isMobile ? '28px' : '36px', objectFit: 'contain' }} />
         <div style={{ 
           fontFamily: 'var(--font-display)', 
           fontWeight: 800, 

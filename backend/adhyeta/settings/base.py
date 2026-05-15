@@ -188,8 +188,10 @@ SPECTACULAR_SETTINGS = {
 # ─── AI Configuration ─────────────────────────────────────────────────────────
 GROQ_API_KEY = config("GROQ_API_KEY", default="")
 GEMINI_API_KEY = config("GEMINI_API_KEY", default="")
+OPENAI_API_KEY = config("OPENAI_API_KEY", default="")
 GROQ_MODEL = config("GROQ_MODEL", default="llama-3.3-70b-versatile")
 GEMINI_MODEL = config("GEMINI_MODEL", default="gemini-2.0-flash")
+OPENAI_MODEL = config("OPENAI_MODEL", default="gpt-4o-mini")
 
 # ─── Cloudinary ───────────────────────────────────────────────────────────────
 CLOUDINARY_STORAGE = {

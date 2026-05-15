@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import logo from '../../assets/logo.png';
 
 export default function LearningMap() {
   return (
@@ -45,7 +46,7 @@ export default function LearningMap() {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           animation: 'pulse 3s infinite ease-in-out'
         }}>
-          <img src="/logo.png" alt="Logo" style={{ width: '60px', opacity: 0.8 }} />
+          <img src={logo} alt="Logo" style={{ width: '60px', opacity: 0.8 }} />
         </div>
         <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#FFFFFF' }}>Sync Active</h3>
         <p style={{ fontSize: '13px', color: 'var(--text-dim)', marginTop: '8px' }}>Optimizing Learning load...</p>

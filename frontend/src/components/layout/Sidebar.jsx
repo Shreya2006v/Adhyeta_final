@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useUIStore } from '../../store/uiStore';
+import logo from '../../assets/logo.png';
 import { 
   LayoutDashboard, Target, ClipboardCheck, Bot, Trophy, 
   User, School, Settings, Flame, Zap, ChevronLeft, ChevronRight, Briefcase 
@@ -41,7 +42,7 @@ export default function Sidebar() {
         gap: '12px', borderBottom: '1px solid var(--border-subtle)',
         minHeight: '64px',
       }}>
-        <img src="/logo.png" alt="ADHYETA" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+        <img src={logo} alt="ADHYETA" style={{ width: 32, height: 32, objectFit: 'contain' }} />
         {sidebarOpen && (
           <motion.span
             initial={{ opacity: 0, x: -10 }}

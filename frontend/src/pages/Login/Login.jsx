@@ -7,6 +7,7 @@ import GlassCard from '../../components/ui/GlassCard';
 import Button from '../../components/ui/Button';
 import api from '../../lib/axios';
 import { useAuthStore } from '../../store/authStore';
+import logo from '../../assets/logo.png';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ export default function Login() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <img src="/logo.png" alt="ADHYETA" style={{ width: '200px', marginBottom: '32px', filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.3))' }} />
+            <img src={logo} alt="ADHYETA" style={{ width: '200px', marginBottom: '32px', filter: 'drop-shadow(0 0 20px rgba(99,102,241,0.3))' }} />
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '48px', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px' }}>
               Welcome back to <br/><span className="text-gradient-primary">ADHYETA.</span>
             </h1>
@@ -92,7 +93,7 @@ export default function Login() {
         <div style={{ flex: 1, minWidth: '320px', maxWidth: '480px' }}>
           <GlassCard elevated style={{ padding: window.innerWidth < 480 ? '24px' : '48px', borderRadius: '32px', border: '1px solid rgba(255,255,255,0.05)' }}>
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-              <img src="/logo.png" alt="ADHYETA" style={{ width: '64px', marginBottom: '16px' }} />
+              <img src={logo} alt="ADHYETA" style={{ width: '64px', marginBottom: '16px' }} />
               <h2 style={{ fontSize: '24px', fontWeight: 800 }}>Sign In</h2>
             </div>
 

@@ -11,6 +11,7 @@ import GlassCard from '../../components/ui/GlassCard';
 import Button from '../../components/ui/Button';
 import api from '../../lib/axios';
 import { useAuthStore } from '../../store/authStore';
+import logo from '../../assets/logo.png';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -134,7 +135,7 @@ export default function Register() {
       <div style={{ minHeight: '100vh', background: 'var(--bg-void)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
         <div style={{ maxWidth: '960px', width: '100%' }}>
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: 'center', marginBottom: '56px' }}>
-            <img src="/logo.png" alt="ADHYETA" style={{ width: '120px', marginBottom: '24px' }} />
+            <img src={logo} alt="ADHYETA" style={{ width: '120px', marginBottom: '24px' }} />
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '42px', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em' }}>Join ADHYETA</h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '18px' }}>Select your integration level with the ADHYETA ecosystem.</p>
           </motion.div>
@@ -198,10 +199,10 @@ export default function Register() {
     />;
   }
 
-  return <StudentFlow step={step} setStep={setStep} data={formData.student} update={updateStudent} onBack={() => setMode('select')} onLaunch={handleLaunch} isPending={registerMutation.isPending} />;
+  return <StudentFlow step={step} setStep={setStep} data={formData.student} update={updateStudent} onBack={() => setMode('select')} onLaunch={handleLaunch} isPending={registerMutation.isPending} colleges={colleges} branches={branches} />;
 }
 
-function StudentFlow({ step, setStep, data, update, onBack, onLaunch, isPending }) {
+function StudentFlow({ step, setStep, data, update, onBack, onLaunch, isPending, colleges, branches }) {
   const steps = ["Profile", "Track", "Course", "ADHYETA", "Security"];
 
   return (
@@ -225,7 +226,7 @@ function StudentFlow({ step, setStep, data, update, onBack, onLaunch, isPending 
             >
               {step === 1 && <StudentStep1 data={data} update={update} />}
               {step === 2 && <StudentStep2 data={data} update={update} />}
-              {step === 3 && <StudentStep3 data={data} update={update} />}
+              {step === 3 && <StudentStep3 data={data} update={update} colleges={colleges} branches={branches} />}
               {step === 4 && <StudentStep4 data={data} update={update} />}
               {step === 5 && <StudentStep5 data={data} update={update} />}
             </motion.div>
@@ -364,7 +365,7 @@ function StudentStep2({ data, update }) {
   );
 }
 
-function StudentStep3({ data, update }) {
+function StudentStep3({ data, update, colleges, branches }) {
   const cat = data.category || 'skill';
   const updateInfo = (field, value) => {
     const key = `${cat}Info`;

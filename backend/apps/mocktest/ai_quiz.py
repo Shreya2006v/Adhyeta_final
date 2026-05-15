@@ -46,10 +46,17 @@ def generate_quiz(subject: str, topics: str, difficulty: str, num_questions: int
     try:
         from langchain_groq import ChatGroq
         from langchain_google_genai import ChatGoogleGenerativeAI
+        from langchain_openai import ChatOpenAI
         from langchain_core.messages import HumanMessage
 
         llm = None
-        if settings.GROQ_API_KEY:
+        if settings.OPENAI_API_KEY:
+            llm = ChatOpenAI(
+                api_key=settings.OPENAI_API_KEY,
+                model=settings.OPENAI_MODEL,
+                temperature=0.8,
+            )
+        elif settings.GROQ_API_KEY:
             llm = ChatGroq(
                 api_key=settings.GROQ_API_KEY,
                 model=settings.GROQ_MODEL,

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Globe, Users, GitFork, MessageCircle, Heart } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -23,7 +24,7 @@ export default function Footer() {
         {/* Brand Column */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px' }}>
-            <img src="/logo.png" alt="ADHYETA" style={{ height: '36px', objectFit: 'contain' }} />
+            <img src={logo} alt="ADHYETA" style={{ height: '36px', objectFit: 'contain' }} />
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 950, fontSize: '28px', letterSpacing: '0.05em', color: '#FFFFFF' }}>
               ADHYETA
             </div>
